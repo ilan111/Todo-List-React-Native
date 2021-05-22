@@ -11,11 +11,14 @@ import {
 
 export default function App() {
   const [getText, setText] = useState("");
-  const [getList, setList] = useState(["item1", "item2"]);
+  const [getList, setList] = useState([]);
 
   const addItem = () => {
     console.log(getText);
-    setList([...getList, getText]);
+    setList([
+      ...getList, 
+      {key: Math.random().toString(), data: getText}
+    ]);
     setText("");
   };
   return (
@@ -33,17 +36,40 @@ export default function App() {
       <View>
         <Text style={{ fontSize: 25 }}>{getText}</Text>
       </View>
-      <ScrollView>
-        {getList.map((item)=><Text>{item}</Text>)}
+      <ScrollView style={styles.ScrollView}>
+        {getList.map((item) => (
+          <View 
+            style={styles.ScrollViewItem}
+            key={item.key}
+          >
+            <Text style={styles.scrollViewText}>{item.data}</Text>
+          </View>
+        ))}
       </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  scrollViewText: {
+    fontSize: 26,
+    color: "black",
+  },
+  ScrollView: {
+    paddingTop: 25,
+    width: "100%",
+  },
+  ScrollViewItem: {
+    backgroundColor: "#1be3d9",
+    width: "90%",
+    alignSelf: "center",
+    padding: 10,
+    margin: 5,
+    borderRadius: 10,
+  },
   title: {
     fontSize: 64,
-    color: "lightgrey",
+    color: "#1be3d9",
   },
   container: {
     flex: 1,
