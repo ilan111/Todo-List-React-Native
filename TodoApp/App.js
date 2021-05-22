@@ -7,6 +7,7 @@ import {
   TextInput,
   Button,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
 
 export default function App() {
@@ -15,12 +16,16 @@ export default function App() {
 
   const addItem = () => {
     console.log(getText);
-    setList([
-      ...getList, 
-      {key: Math.random().toString(), data: getText}
-    ]);
+    setList([...getList, { key: Math.random().toString(), data: getText }]);
     setText("");
   };
+
+  const removeItem = (itemKey) => {
+    // var list = getList.filter((item) => item.key != itemKey);
+    // setList(list);
+    setList((list) => getList.filter(item.key != itemKey));
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>ToDo List</Text>
@@ -38,12 +43,15 @@ export default function App() {
       </View>
       <ScrollView style={styles.ScrollView}>
         {getList.map((item) => (
-          <View 
-            style={styles.ScrollViewItem}
+          <TouchableOpacity
             key={item.key}
+            activeOpacity={0.4}
+            onPress={() => removeItem(item.key)}
           >
-            <Text style={styles.scrollViewText}>{item.data}</Text>
-          </View>
+            <View style={styles.ScrollViewItem}>
+              <Text style={styles.scrollViewText}>{item.data}</Text>
+            </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </View>
