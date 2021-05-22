@@ -21,9 +21,9 @@ export default function App() {
   };
 
   const removeItem = (itemKey) => {
-    // var list = getList.filter((item) => item.key != itemKey);
-    // setList(list);
-    setList((list) => getList.filter(item.key != itemKey));
+    var list = getList.filter((item) => item.key != itemKey);
+    setList(list);
+    // setList((list) => getList.filter(item.key != itemKey));
   };
 
   return (
@@ -43,13 +43,14 @@ export default function App() {
       </View>
       <ScrollView style={styles.ScrollView}>
         {getList.map((item) => (
-          <TouchableOpacity
-            key={item.key}
-            activeOpacity={0.4}
-            onPress={() => removeItem(item.key)}
-          >
+          <TouchableOpacity key={item.key} activeOpacity={0.4}>
             <View style={styles.ScrollViewItem}>
               <Text style={styles.scrollViewText}>{item.data}</Text>
+              <TouchableOpacity onPress={() => removeItem(item.key)}>
+                <View style={styles.crossContainer}>
+                  <Text style={styles.crossText}>X</Text>
+                </View>
+              </TouchableOpacity>
             </View>
           </TouchableOpacity>
         ))}
@@ -59,6 +60,19 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  crossContainer: {
+    backgroundColor: "black",
+    borderRadius: 50,
+    padding: 5,
+    width: 30,
+    justifyContent:"center",
+    alignItems:"center"
+  },
+  crossText: {
+    fontSize: 16,
+    color: "#1be3d9",
+    fontWeight:"bold"
+  },
   scrollViewText: {
     fontSize: 26,
     color: "black",
@@ -71,6 +85,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#1be3d9",
     width: "90%",
     alignSelf: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
     padding: 10,
     margin: 5,
     borderRadius: 10,
