@@ -9,6 +9,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
+import CustomButton from "./components/ButtonComponents";
 
 export default function App() {
   const [getText, setText] = useState("");
@@ -36,7 +37,7 @@ export default function App() {
           onChangeText={(text) => setText(text)}
           value={getText}
         />
-        <Button title="Add" onPress={addItem} />
+        <CustomButton text="ADD" textSize={20} textColor={"black"} boldText={"bold"} onPressEvent={addItem}/>
       </View>
       <View>
         <Text style={{ fontSize: 25 }}>{getText}</Text>
@@ -60,18 +61,19 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+
   crossContainer: {
     backgroundColor: "black",
     borderRadius: 50,
     padding: 5,
     width: 30,
-    justifyContent:"center",
-    alignItems:"center"
+    justifyContent: "center",
+    alignItems: "center",
   },
   crossText: {
     fontSize: 16,
     color: "#1be3d9",
-    fontWeight:"bold"
+    fontWeight: "bold",
   },
   scrollViewText: {
     fontSize: 26,
