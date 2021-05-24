@@ -37,13 +37,23 @@ export default function App() {
           onChangeText={(text) => setText(text)}
           value={getText}
         />
-        <CustomButton text="ADD" textSize={20} textColor={"black"} boldText={"bold"} onPressEvent={addItem}/>
+        <CustomButton
+          text="ADD"
+          textSize={20}
+          // textColor={"black"}
+          // color={"blue"}
+          boldText={"bold"}
+          onPressEvent={addItem}
+          disabled={getText.length <= 0}
+        />
       </View>
       <ScrollView style={styles.ScrollView}>
         {getList.map((item, index) => (
           <TouchableOpacity key={item.key} activeOpacity={0.4}>
             <View style={styles.ScrollViewItem}>
-              <Text style={styles.scrollViewText}>{index+1}. {item.data}</Text>
+              <Text style={styles.scrollViewText}>
+                {index + 1}. {item.data}
+              </Text>
               <TouchableOpacity onPress={() => removeItem(item.key)}>
                 <View style={styles.crossContainer}>
                   <Text style={styles.crossText}>X</Text>
@@ -58,7 +68,6 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-
   crossContainer: {
     backgroundColor: "black",
     borderRadius: 50,
