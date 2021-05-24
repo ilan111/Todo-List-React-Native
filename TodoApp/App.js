@@ -8,17 +8,21 @@ import {
   Button,
   ScrollView,
   TouchableOpacity,
+  Keyboard,
 } from "react-native";
 import CustomButton from "./components/ButtonComponents";
+import { todoItems } from "./constants/dummyToDo";
 
 export default function App() {
   const [getText, setText] = useState("");
-  const [getList, setList] = useState([]);
+  const [getList, setList] = useState(todoItems);
+  const [editingItem, setEditingItem] = useState(0);
 
   const addItem = () => {
     console.log(getText);
     setList([...getList, { key: Math.random().toString(), data: getText }]);
     setText("");
+    Keyboard.dismiss;
   };
 
   const removeItem = (itemKey) => {
@@ -27,10 +31,29 @@ export default function App() {
     // setList((list) => getList.filter(item.key != itemKey));
   };
 
+  const editItem = (item) => {
+    setText(item.data);
+    setEditingItem(item.key);
+  };
+
+  const updateItem = () => {
+    setList((list) =>
+      getList.map((item) =>
+        item.key === editingItem ? { key: item.key, data: getText } : item
+      )
+    );
+    setText('');
+    setEditingItem(0);
+  };
+
   const scrollView = (
     <ScrollView style={styles.ScrollView}>
       {getList.map((item, index) => (
-        <TouchableOpacity key={item.key} activeOpacity={0.4}>
+        <TouchableOpacity
+          key={item.key}
+          activeOpacity={0.4}
+          onPress={() => editItem(item)}
+        >
           <View style={styles.ScrollViewItem}>
             <Text style={styles.scrollViewText}>
               {index + 1}. {item.data}
@@ -65,12 +88,12 @@ export default function App() {
           value={getText}
         />
         <CustomButton
-          text="ADD"
+          text={editingItem === 0 ? "ADD" : "UPDATE"}
           textSize={20}
           // textColor={"black"}
           // color={"blue"}
           boldText={"bold"}
-          onPressEvent={addItem}
+          onPressEvent={editingItem === 0 ? addItem : updateItem}
           disabled={getText.length <= 0}
         />
       </View>
